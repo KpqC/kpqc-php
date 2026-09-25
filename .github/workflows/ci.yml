@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.os }} / PHP ${{ matrix.php }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        php: ['8.1', '8.5']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+          coverage: none
+      - name: Validate Composer metadata
+        run: composer validate --strict
+      - name: Prepare extension build
+        run: phpize
+      - name: Configure extension
+        run: ./configure --enable-kpqc
+      - name: Build
+        run: make -j2
+      - name: Test PHP API
+        run: >-
+          php -n
+          -d extension=modules/kpqc.so
+          tests/api_test.php

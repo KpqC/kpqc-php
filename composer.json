@@ -1,0 +1,33 @@
+{
+  "name": "kpqc/kpqc",
+  "description": "PHP APIs for AIMer, HAETAE, NTRU+, and SMAUG-T.",
+  "homepage": "https://github.com/KpqC/kpqc-php",
+  "type": "php-ext",
+  "license": "MIT",
+  "keywords": [
+    "kpqc",
+    "post-quantum",
+    "cryptography",
+    "aimer",
+    "haetae",
+    "ntruplus",
+    "smaug-t"
+  ],
+  "require": {
+    "php": ">=8.1"
+  },
+  "replace": {
+    "ext-kpqc": "*"
+  },
+  "php-ext": {
+    "extension-name": "kpqc",
+    "os-families": [
+      "darwin",
+      "linux"
+    ]
+  },
+  "support": {
+    "issues": "https://github.com/KpqC/kpqc-php/issues",
+    "source": "https://github.com/KpqC/kpqc-php"
+  }
+}
