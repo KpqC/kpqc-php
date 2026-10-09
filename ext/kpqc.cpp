@@ -190,7 +190,7 @@ const kpqc::KeyEncapsulationAlgorithm& require_kem(const zend_string* name) {
         return *algorithm;
     }
     throw std::invalid_argument(
-        "unknown key-encapsulation algorithm: " + std::string(view(name)));
+        "unknown KEM algorithm: " + std::string(view(name)));
 }
 
 void return_bytes(zval* return_value, const kpqc::Bytes& value) {
@@ -368,7 +368,7 @@ void create_kem_algorithm(zval* value, std::string_view name) {
     const auto* algorithm = find_kem(name);
     if (algorithm == nullptr) {
         throw std::invalid_argument(
-            "unknown key-encapsulation algorithm: " + std::string(name));
+            "unknown KEM algorithm: " + std::string(name));
     }
     object_init_ex(value, key_encapsulation_algorithm_ce);
     initialize_string_property(
