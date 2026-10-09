@@ -11,6 +11,33 @@ permissions:
   contents: read
 
 jobs:
+  known-answer-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: KpqC/kpqc-test-vectors
+          ref: d75490bf824faa4b148cd0b901a2eb13198fe0da
+          path: kpqc-test-vectors
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+      - name: Configure KAT build
+        run: >-
+          cmake -S . -B build-kat
+          -DCMAKE_BUILD_TYPE=Release
+          -DKPQC_BUILD_NATIVE_TESTS=ON
+      - name: Build KAT targets
+        run: cmake --build build-kat --parallel
+      - name: Validate all known-answer vectors
+        env:
+          KPQC_TEST_VECTORS: ${{ github.workspace }}/kpqc-test-vectors
+        run: >-
+          ctest --test-dir build-kat --output-on-failure
+          -R '^(kat|php-kat)$'
+
   build-and-test:
     name: ${{ matrix.os }} / PHP ${{ matrix.php }}
     runs-on: ${{ matrix.os }}

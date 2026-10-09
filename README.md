@@ -197,7 +197,7 @@ secret.
 
 The bundled implementation is tested through the PHP API against all 1,600 KAT
 records in
-[KpqC/kpqc-test-vectors at commit 179dcc05ece2](https://github.com/KpqC/kpqc-test-vectors/tree/179dcc05ece2e22262cea1a61f3cdf1a5b08a304).
+[KpqC/kpqc-test-vectors at commit d75490bf824f](https://github.com/KpqC/kpqc-test-vectors/tree/d75490bf824faa4b148cd0b901a2eb13198fe0da).
 The vector files are not duplicated in this repository.
 
 With `kpqc-test-vectors` checked out beside `kpqc-php`, run:
@@ -207,7 +207,7 @@ cmake -S . -B build-kat \
   -DCMAKE_BUILD_TYPE=Release \
   -DKPQC_BUILD_NATIVE_TESTS=ON
 cmake --build build-kat --parallel
-KPQC_TEST_VECTORS=../kpqc-test-vectors \
+KPQC_TEST_VECTORS="$(pwd)/../kpqc-test-vectors" \
   ctest --test-dir build-kat --output-on-failure \
     -R '^(api|kat|php-api|php-kat)$'
 ```
